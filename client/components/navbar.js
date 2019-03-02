@@ -1,12 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
+import {Button} from 'reactstrap'
+
 import {Link} from 'react-router-dom'
 import {logout} from '../store'
 
 const Navbar = ({handleClick, isLoggedIn}) => (
   <div>
-    <h1>BOILERMAKER</h1>
+    <h1>Egg Hunting</h1>
     <nav>
       {isLoggedIn ? (
         <div>
@@ -19,6 +21,7 @@ const Navbar = ({handleClick, isLoggedIn}) => (
       ) : (
         <div>
           {/* The navbar will show these links before you log in */}
+          <Button color="danger">Danger!</Button>
           <Link to="/login">Login</Link>
           <Link to="/signup">Sign Up</Link>
         </div>
