@@ -11,6 +11,7 @@ import './socket'
 
 //bootstrap
 import 'bootstrap/dist/css/bootstrap.min.css'
+import '../public/style.css'
 
 ReactDOM.render(
   <Provider store={store}>

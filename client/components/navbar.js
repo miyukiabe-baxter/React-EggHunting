@@ -14,45 +14,36 @@ const Navbar = ({handleClick, isLoggedIn}) => (
         <div>
           {/* The navbar will show these links after you log in */}
           <Link to="/home">
-            <Badge href="#" color="warning">
+            <Button outline color="warning">
               HOME
-            </Badge>
+            </Button>
           </Link>
           <a href="#" onClick={handleClick}>
-            <Badge href="#" color="danger">
+            <Button href="#" color="danger">
               LOGOUT
-            </Badge>
+            </Button>
           </a>
         </div>
       ) : (
         <div>
           {/* The navbar will show these links before you log in */}
+          <Link to="/">
+            <Button outline color="danger">
+              MAIN
+            </Button>
+          </Link>
+
           <Link to="/signup">
-            {' '}
-            <Badge href="#" color="primary">
+            <Button outline color="success">
               SIGN UP
-            </Badge>
+            </Button>
           </Link>
+
           <Link to="/login">
-            <Badge href="#" color="success">
+            <Button outline color="primary">
               LOGIN
-            </Badge>
+            </Button>
           </Link>
-          <Button outline color="primary">
-            primary
-          </Button>{' '}
-          <Button outline color="success">
-            success
-          </Button>{' '}
-          <Button outline color="info">
-            info
-          </Button>{' '}
-          <Button outline color="warning">
-            warning
-          </Button>{' '}
-          <Button outline color="danger">
-            danger
-          </Button>
         </div>
       )}
     </nav>
