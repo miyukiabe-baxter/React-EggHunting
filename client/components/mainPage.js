@@ -1,5 +1,10 @@
 import React from 'react'
-import MapContainer from './map'
+
+//below is using google-maps-react
+// import MapContainer from './map'
+
+//No API
+import MapContainer from './mapContainer'
 
 const MainPage = () => (
   <div>
