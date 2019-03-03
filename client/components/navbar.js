@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import {Button} from 'reactstrap'
+import {Badge, Button} from 'reactstrap'
 
 import {Link} from 'react-router-dom'
 import {logout} from '../store'
@@ -13,17 +13,46 @@ const Navbar = ({handleClick, isLoggedIn}) => (
       {isLoggedIn ? (
         <div>
           {/* The navbar will show these links after you log in */}
-          <Link to="/home">Home</Link>
+          <Link to="/home">
+            <Badge href="#" color="warning">
+              HOME
+            </Badge>
+          </Link>
           <a href="#" onClick={handleClick}>
-            Logout
+            <Badge href="#" color="danger">
+              LOGOUT
+            </Badge>
           </a>
         </div>
       ) : (
         <div>
           {/* The navbar will show these links before you log in */}
-          <Button color="danger">Danger!</Button>
-          <Link to="/login">Login</Link>
-          <Link to="/signup">Sign Up</Link>
+          <Link to="/signup">
+            {' '}
+            <Badge href="#" color="primary">
+              SIGN UP
+            </Badge>
+          </Link>
+          <Link to="/login">
+            <Badge href="#" color="success">
+              LOGIN
+            </Badge>
+          </Link>
+          <Button outline color="primary">
+            primary
+          </Button>{' '}
+          <Button outline color="success">
+            success
+          </Button>{' '}
+          <Button outline color="info">
+            info
+          </Button>{' '}
+          <Button outline color="warning">
+            warning
+          </Button>{' '}
+          <Button outline color="danger">
+            danger
+          </Button>
         </div>
       )}
     </nav>

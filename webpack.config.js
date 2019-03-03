@@ -23,6 +23,18 @@ module.exports = {
         test: /\.jsx?$/,
         exclude: /node_modules/,
         loader: 'babel-loader'
+      },
+      {
+        // For all .css files except from node_modules
+        test: /\.css$/,
+        exclude: /node_modules/,
+        use: ['style-loader', {loader: 'css-loader', options: {modules: true}}]
+      },
+      {
+        // For all .css files in node_modules
+        test: /\.css$/,
+        include: /node_modules/,
+        use: ['style-loader', 'css-loader']
       }
     ]
   }
