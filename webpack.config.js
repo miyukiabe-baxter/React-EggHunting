@@ -1,4 +1,5 @@
 const isDev = process.env.NODE_ENV === 'development'
+const Dotenv = require('dotenv-webpack')
 
 module.exports = {
   mode: isDev ? 'development' : 'production',
@@ -17,12 +18,15 @@ module.exports = {
   watchOptions: {
     ignored: /node_modules/
   },
+  plugins: [new Dotenv()],
   module: {
     rules: [
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
-        loader: 'babel-loader'
+        use: {
+          loader: 'babel-loader'
+        }
       },
       {
         // For all .css files except from node_modules

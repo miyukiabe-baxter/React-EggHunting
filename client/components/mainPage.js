@@ -58,7 +58,9 @@ class MainPage extends React.Component {
 
   renderMap = () => {
     loadScript(
-      'https://maps.googleapis.com/maps/api/js?key=AIzaSyDU4lLRMSBMlKtCbV0PoOEDF6TaNIac6Ck&callback=initMap'
+      'https://maps.googleapis.com/maps/api/js?key=' +
+        process.env.GOOGLE_MAPAPIKEY +
+        '&callback=initMap'
     )
     window.initMap = this.initMap
   }
@@ -81,7 +83,6 @@ class MainPage extends React.Component {
   }
 
   render() {
-    console.log(this.state.venues)
     return (
       <div>
         <div>
