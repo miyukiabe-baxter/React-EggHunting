@@ -9,12 +9,14 @@ class MainPage extends React.Component {
   constructor() {
     super()
     this.state = {
-      venues: []
+      venues: [],
+      trivia: []
     }
   }
 
   componentDidMount() {
     this.getVenues()
+    this.getTrivia()
   }
 
   getVenues = () => {
@@ -44,23 +46,25 @@ class MainPage extends React.Component {
       })
   }
 
-  // getTrivia = () => {
-  //   const endPoint = 'https://opentdb.com/api.php?amount=20&category=18'
+  getTrivia = () => {
+    const endPoint = 'https://opentdb.com/api.php?amount=20&category=18'
 
-  //   axios.get(endPoint)
-  //   .then(data => {
-  //     console.log(data)
-  //   })
-  //   .catch(error => {
-  //     console.log("error!1 " + error)
-  //   })
-  // }
+    axios
+      .get(endPoint)
+      .then(data => {
+        this.setState({
+          trivia: data.data.results
+        })
+        console.log('trivia', this.state.trivia)
+      })
+      .catch(error => {
+        console.log('error!1 ' + error)
+      })
+  }
 
   renderMap = () => {
     loadScript(
-      'https://maps.googleapis.com/maps/api/js?key=' +
-        process.env.GOOGLE_MAPAPIKEY +
-        '&callback=initMap'
+      'https://maps.googleapis.com/maps/api/js?key=AIzaSyDU4lLRMSBMlKtCbV0PoOEDF6TaNIac6Ck&callback=initMap'
     )
     window.initMap = this.initMap
   }
@@ -70,7 +74,12 @@ class MainPage extends React.Component {
       center: {lat: 40.748287, lng: -73.989794},
       zoom: 12
     })
+
+    //creating info Window
+    var infowindow = new window.google.maps.InfoWindow()
+
     this.state.venues.map(myVenue => {
+      //creating a marker
       var marker = new window.google.maps.Marker({
         position: {
           lat: myVenue.venue.location.lat,
@@ -78,6 +87,14 @@ class MainPage extends React.Component {
         },
         map: map,
         title: myVenue.venue.name
+      })
+
+      //Open an infowindow
+      marker.addListener('click', function() {
+        //change the content
+        infowindow.setContent(`${myVenue.venue.name}`)
+
+        infowindow.open(map, marker)
       })
     })
   }
@@ -95,9 +112,8 @@ class MainPage extends React.Component {
         </div>
 
         {/* <MapContainer /> */}
-        <main>
-          <div id="map" />
-        </main>
+
+        <div id="map" />
       </div>
     )
   }
