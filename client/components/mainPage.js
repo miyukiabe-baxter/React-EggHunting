@@ -1,67 +1,22 @@
 import React from 'react'
-import axios from 'axios'
-//below is using google-maps-react
+import {connect} from 'react-redux'
 import MapContainer from './mapContainer'
-
-//No API
+import {gettingQuizzes} from '../store/quiz'
+import {gettingVenues} from '../store/forsquare'
+import {Badge, Button} from 'reactstrap'
 
 class MainPage extends React.Component {
   constructor() {
     super()
     this.state = {
-      venues: [],
-      trivia: [],
       isHidden: true
     }
     this.toggleQuiz = this.toggleQuiz.bind(this)
   }
 
   componentDidMount() {
-    this.getVenues()
-    this.getTrivia()
-  }
-
-  getVenues = () => {
-    const endPoint = 'https://api.foursquare.com/v2/venues/explore?'
-    const parameters = {
-      client_id: 'YTOUTW0MFSVVYABEOEFCPJNPXTMBRY1BMQUHVTRVZMVZT1PN',
-      client_secret: 'SD530C2ZHLQCK44A1SHBJZSYHHXD2NFSDPQNYAULPW2KB2OB',
-      query: 'coffee',
-      near: 'New York',
-      v: '20180323'
-    }
-
-    //this.setState takes callback function. because we need to make sure this.getVenues to happen first.
-    //Then, once this.state.venues are filled with data, let's call this.renderMap()
-    axios
-      .get(endPoint + new URLSearchParams(parameters))
-      .then(response => {
-        this.setState(
-          {
-            venues: response.data.response.groups[0].items
-          },
-          this.renderMap()
-        )
-      })
-      .catch(error => {
-        console.log('error!1 ' + error)
-      })
-  }
-
-  getTrivia = () => {
-    const endPoint = 'https://opentdb.com/api.php?amount=20&category=18'
-
-    axios
-      .get(endPoint)
-      .then(data => {
-        this.setState({
-          trivia: data.data.results
-        })
-        console.log('trivia', this.state.trivia)
-      })
-      .catch(error => {
-        console.log('error!1 ' + error)
-      })
+    this.props.getVenues().then(() => this.renderMap())
+    this.props.getTrivia()
   }
 
   renderMap = () => {
@@ -75,12 +30,11 @@ class MainPage extends React.Component {
     const map = new window.google.maps.Map(document.getElementById('map'), {
       center: {lat: 40.748287, lng: -73.989794},
       zoom: 12,
-      //below is good for mobile environment. user need 2 fingers to touch
       gestureHandling: 'cooperative'
     })
 
     const egg = '/img/smallEggs/'
-    this.state.venues.map(myVenue => {
+    this.props.venues.map(myVenue => {
       var marker = new window.google.maps.Marker({
         position: {
           lat: myVenue.venue.location.lat,
@@ -96,12 +50,7 @@ class MainPage extends React.Component {
       })
       marker.addListener('click', this.toggleQuiz)
       map.addListener('zoom_changed', function() {
-        if (map.zoom > 16) {
-          marker.setVisible(true)
-        } else {
-          marker.setVisible(false)
-        }
-        console.log(map.zoom)
+        map.zoom > 14 ? marker.setVisible(true) : marker.setVisible(false)
       })
     })
   }
@@ -113,11 +62,13 @@ class MainPage extends React.Component {
   }
 
   render() {
+    console.log(this.props.trivias)
     return (
       <div>
         <div>
-          <h1>START GAME</h1>
-          <h2>Play Game</h2>
+          <Button outline color="warning">
+            Start Game
+          </Button>
         </div>
 
         <div>
@@ -130,7 +81,7 @@ class MainPage extends React.Component {
   }
 }
 
-function loadScript(url) {
+const loadScript = url => {
   const index = window.document.getElementsByTagName('script')[0]
   const script = window.document.createElement('script')
   script.src = url
@@ -139,4 +90,14 @@ function loadScript(url) {
   index.parentNode.insertBefore(script, index)
 }
 
-export default MainPage
+const mapStateToProps = state => ({
+  trivias: state.quiz.quizzes,
+  venues: state.venue.venues
+})
+
+const mapStateToDispatch = dispatch => ({
+  getTrivia: () => dispatch(gettingQuizzes()),
+  getVenues: () => dispatch(gettingVenues())
+})
+
+export default connect(mapStateToProps, mapStateToDispatch)(MainPage)
