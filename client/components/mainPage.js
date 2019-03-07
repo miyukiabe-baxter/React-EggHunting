@@ -1,7 +1,11 @@
 import React from 'react'
+import {connect} from 'react-redux'
 import axios from 'axios'
+
 //below is using google-maps-react
 import MapContainer from './mapContainer'
+import {gettingQuizzes} from '../store/quiz'
+import store from '../store'
 
 //No API
 
@@ -10,7 +14,7 @@ class MainPage extends React.Component {
     super()
     this.state = {
       venues: [],
-      trivia: [],
+      // trivia: [],
       isHidden: true
     }
     this.toggleQuiz = this.toggleQuiz.bind(this)
@@ -18,7 +22,7 @@ class MainPage extends React.Component {
 
   componentDidMount() {
     this.getVenues()
-    this.getTrivia()
+    this.props.getTrivia()
   }
 
   getVenues = () => {
@@ -30,7 +34,6 @@ class MainPage extends React.Component {
       near: 'New York',
       v: '20180323'
     }
-
     //this.setState takes callback function. because we need to make sure this.getVenues to happen first.
     //Then, once this.state.venues are filled with data, let's call this.renderMap()
     axios
@@ -42,22 +45,6 @@ class MainPage extends React.Component {
           },
           this.renderMap()
         )
-      })
-      .catch(error => {
-        console.log('error!1 ' + error)
-      })
-  }
-
-  getTrivia = () => {
-    const endPoint = 'https://opentdb.com/api.php?amount=20&category=18'
-
-    axios
-      .get(endPoint)
-      .then(data => {
-        this.setState({
-          trivia: data.data.results
-        })
-        console.log('trivia', this.state.trivia)
       })
       .catch(error => {
         console.log('error!1 ' + error)
@@ -113,6 +100,7 @@ class MainPage extends React.Component {
   }
 
   render() {
+    console.log(this.props.trivias)
     return (
       <div>
         <div>
@@ -139,4 +127,16 @@ function loadScript(url) {
   index.parentNode.insertBefore(script, index)
 }
 
-export default MainPage
+const mapStateToProps = state => {
+  return {
+    trivias: state.quiz.quizzes
+  }
+}
+
+const mapStateToDispatch = dispatch => {
+  return {
+    getTrivia: () => dispatch(gettingQuizzes())
+  }
+}
+
+export default connect(mapStateToProps, mapStateToDispatch)(MainPage)
