@@ -74,7 +74,9 @@ class MainPage extends React.Component {
   initMap = () => {
     const map = new window.google.maps.Map(document.getElementById('map'), {
       center: {lat: 40.748287, lng: -73.989794},
-      zoom: 12
+      zoom: 12,
+      //below is good for mobile environment. user need 2 fingers to touch
+      gestureHandling: 'cooperative'
     })
 
     this.state.venues.map(myVenue => {
@@ -88,10 +90,18 @@ class MainPage extends React.Component {
         draggable: false,
         raiseOnDrag: false,
         clickable: true,
-        visible: true,
+        visible: false,
         title: myVenue.venue.name
       })
       marker.addListener('click', this.toggleQuiz)
+      map.addListener('zoom_changed', function() {
+        if (map.zoom > 15) {
+          marker.setVisible(true)
+        } else {
+          marker.setVisible(false)
+        }
+        console.log(map.zoom)
+      })
     })
   }
 
