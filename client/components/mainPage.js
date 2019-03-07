@@ -79,8 +79,8 @@ class MainPage extends React.Component {
       gestureHandling: 'cooperative'
     })
 
+    const egg = '/img/smallEggs/'
     this.state.venues.map(myVenue => {
-      //creating a marker
       var marker = new window.google.maps.Marker({
         position: {
           lat: myVenue.venue.location.lat,
@@ -91,11 +91,12 @@ class MainPage extends React.Component {
         raiseOnDrag: false,
         clickable: true,
         visible: false,
-        title: myVenue.venue.name
+        title: myVenue.venue.name,
+        icon: egg + `red.png`
       })
       marker.addListener('click', this.toggleQuiz)
       map.addListener('zoom_changed', function() {
-        if (map.zoom > 15) {
+        if (map.zoom > 16) {
           marker.setVisible(true)
         } else {
           marker.setVisible(false)
