@@ -1,7 +1,7 @@
 import React from 'react'
 import axios from 'axios'
 //below is using google-maps-react
-// import MapContainer from './map'
+import MapContainer from './mapContainer'
 
 //No API
 
@@ -10,8 +10,10 @@ class MainPage extends React.Component {
     super()
     this.state = {
       venues: [],
-      trivia: []
+      trivia: [],
+      isHidden: true
     }
+    this.toggleQuiz = this.toggleQuiz.bind(this)
   }
 
   componentDidMount() {
@@ -75,9 +77,6 @@ class MainPage extends React.Component {
       zoom: 12
     })
 
-    //creating info Window
-    var infowindow = new window.google.maps.InfoWindow()
-
     this.state.venues.map(myVenue => {
       //creating a marker
       var marker = new window.google.maps.Marker({
@@ -86,16 +85,19 @@ class MainPage extends React.Component {
           lng: myVenue.venue.location.lng
         },
         map: map,
+        draggable: false,
+        raiseOnDrag: false,
+        clickable: true,
+        visible: true,
         title: myVenue.venue.name
       })
+      marker.addListener('click', this.toggleQuiz)
+    })
+  }
 
-      //Open an infowindow
-      marker.addListener('click', function() {
-        //change the content
-        infowindow.setContent(`${myVenue.venue.name}`)
-
-        infowindow.open(map, marker)
-      })
+  toggleQuiz() {
+    this.setState({
+      isHidden: !this.state.isHidden
     })
   }
 
@@ -110,9 +112,7 @@ class MainPage extends React.Component {
         <div>
           <p>Probably questions will be in here</p>
         </div>
-
-        {/* <MapContainer /> */}
-
+        {!this.state.isHidden && <MapContainer />}
         <div id="map" />
       </div>
     )
