@@ -22,13 +22,9 @@ const gotQuiz = quizzes => ({type: GOT_QUIZZES, quizzes})
  * THUNK CREATORS
  */
 
-export const gettingQuizzes = () => dispatch => {
+export const gettingQuizzes = level => async dispatch => {
   try {
-    // const endPoint = 'https://opentdb.com/api.php?amount=50&category=18&type=multiple'
-    // const endPoint = 'https://opentdb.com/api.php?amount=10&type=boolean'
-    // const endPoint =  'https://opentdb.com/api.php?amount=20&category=19&type=multiple'
-    // const res = axios.get(endPoint).then((data) => {axios.post('/api/quiz', data.data.results)})
-    const res = axios.get('/api/quiz')
+    const res = await axios.get(`/api/quiz/${level}`)
     dispatch(gotQuiz(res.data))
   } catch (err) {
     console.error(err)

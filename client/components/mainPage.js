@@ -3,15 +3,7 @@ import {connect} from 'react-redux'
 import QuizContainer from './quizContainer'
 import {gettingQuizzes} from '../store/quiz'
 import {gettingVenues} from '../store/forsquare'
-import {
-  Button,
-  Form,
-  FormGroup,
-  Label,
-  Input,
-  FormText,
-  Badge
-} from 'reactstrap'
+import {Button} from 'reactstrap'
 
 class MainPage extends React.Component {
   constructor() {
@@ -27,7 +19,7 @@ class MainPage extends React.Component {
 
   componentDidMount() {
     this.props.getVenues().then(() => this.renderMap())
-    this.props.getTrivia()
+    // this.props.getTrivia()
   }
 
   renderMap = () => {
@@ -74,15 +66,16 @@ class MainPage extends React.Component {
 
   startGame(e) {
     e.preventDefault()
+    const level = e.target.value
+    this.props.getTrivia(level)
     this.setState({
       isLevelHidden: !this.state.isLevelHidden,
       isTimerStarted: !this.state.isTimerStarted
     })
-    console.log('starting game', e.target.value)
   }
 
   render() {
-    console.log(this.props.trivias)
+    console.log('main page', this.props.trivias)
     return (
       <div>
         {this.state.isLevelHidden && (
@@ -144,7 +137,7 @@ const mapStateToProps = state => ({
 })
 
 const mapStateToDispatch = dispatch => ({
-  getTrivia: () => dispatch(gettingQuizzes()),
+  getTrivia: level => dispatch(gettingQuizzes(level)),
   getVenues: () => dispatch(gettingVenues())
 })
 
