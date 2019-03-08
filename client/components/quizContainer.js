@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {Button, Form, FormGroup, Label, Input} from 'reactstrap'
+import {Button, Form, FormGroup, Label, Input, FormText} from 'reactstrap'
 
 export class QuizContainer extends Component {
   render() {
@@ -9,27 +9,21 @@ export class QuizContainer extends Component {
     return (
       <Form>
         <FormGroup tag="fieldset">
-          <legend>Radio Buttons</legend>
+          <legend>Pick Level</legend>
           <FormGroup check>
             <Label check>
-              <Input type="radio" name="radio1" /> Option one is this and
-              that—be sure to include why it's great
+              <Input type="radio" name="radio1" /> Easy
             </Label>
           </FormGroup>
           <FormGroup check>
             <Label check>
-              <Input type="radio" name="radio1" /> Option two can be something
-              else and selecting it will deselect option one
-            </Label>
-          </FormGroup>
-          <FormGroup check disabled>
-            <Label check>
-              <Input type="radio" name="radio1" disabled /> Option three is
-              disabled
+              <Input type="radio" name="radio2" /> Hard
             </Label>
           </FormGroup>
         </FormGroup>
-        <Button>Submit</Button>
+        <Button outline color="warning">
+          Start Game
+        </Button>
       </Form>
     )
   }

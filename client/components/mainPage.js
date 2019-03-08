@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import QuizContainer from './quizContainer'
 import {gettingQuizzes} from '../store/quiz'
 import {gettingVenues} from '../store/forsquare'
-import {Badge, Button} from 'reactstrap'
+import {Button, Form, FormGroup, Label, Input} from 'reactstrap'
 
 class MainPage extends React.Component {
   constructor() {
@@ -66,9 +66,27 @@ class MainPage extends React.Component {
     return (
       <div>
         <div>
-          <Button outline color="warning">
-            Start Game
-          </Button>
+          <Form>
+            <FormGroup tag="fieldset">
+              <legend>Pick Level</legend>
+              <FormGroup check>
+                <Label check>
+                  <Input type="radio" name="radio1" /> Easy
+                </Label>
+              </FormGroup>
+              <FormGroup check>
+                <Label check>
+                  <Input type="radio" name="radio1" /> Hard
+                </Label>
+              </FormGroup>
+              <FormGroup check disabled>
+                <Label check>
+                  <Input type="radio" name="radio1" disabled /> Pick for Me!
+                </Label>
+              </FormGroup>
+            </FormGroup>
+            <Button>Submit</Button>
+          </Form>
         </div>
         {!this.state.isHidden && <QuizContainer />}
         <div id="map" />
