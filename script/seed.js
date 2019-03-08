@@ -1,18 +1,33 @@
 'use strict'
 
 const db = require('../server/db')
-const {User} = require('../server/db/models')
+const {Egg} = require('../server/db/models')
+
+const eggs = [
+  {
+    imageUrl: '/img/blue.png',
+    difficulty: 'easy'
+  },
+  {
+    imageUrl: '/img/orange.png',
+    difficulty: 'medium'
+  },
+  {
+    imageUrl: '/img/red.png',
+    difficulty: 'hard'
+  },
+  {
+    imageUrl: '/img/special.png',
+    difficulty: 'special'
+  }
+]
 
 async function seed() {
   await db.sync({force: true})
   console.log('db synced!')
 
-  const users = await Promise.all([
-    User.create({email: 'cody@email.com', password: '123'}),
-    User.create({email: 'murphy@email.com', password: '123'})
-  ])
+  await Egg.bulkCreate(eggs)
 
-  console.log(`seeded ${users.length} users`)
   console.log(`seeded successfully`)
 }
 
