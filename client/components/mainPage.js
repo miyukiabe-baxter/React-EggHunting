@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import MapContainer from './mapContainer'
+import QuizContainer from './quizContainer'
 import {gettingQuizzes} from '../store/quiz'
 import {gettingVenues} from '../store/forsquare'
 import {Badge, Button} from 'reactstrap'
@@ -70,11 +70,7 @@ class MainPage extends React.Component {
             Start Game
           </Button>
         </div>
-
-        <div>
-          <p>Probably questions will be in here</p>
-        </div>
-        {!this.state.isHidden && <MapContainer />}
+        {!this.state.isHidden && <QuizContainer />}
         <div id="map" />
       </div>
     )

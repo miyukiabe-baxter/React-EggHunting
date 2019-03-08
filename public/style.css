@@ -4,9 +4,9 @@
 } */
 
 #map {
-  height: 70vh;
-  width: 50vh;
-  margin: 3% auto;
+  height: 60vh;
+  width: 100%;
+  margin: auto;
 }
 /* Optional: Makes the sample page fill the window. */
 html,
