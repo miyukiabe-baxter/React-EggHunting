@@ -3,15 +3,26 @@ import {connect} from 'react-redux'
 import QuizContainer from './quizContainer'
 import {gettingQuizzes} from '../store/quiz'
 import {gettingVenues} from '../store/forsquare'
-import {Button, Form, FormGroup, Label, Input} from 'reactstrap'
+import {
+  Button,
+  Form,
+  FormGroup,
+  Label,
+  Input,
+  FormText,
+  Badge
+} from 'reactstrap'
 
 class MainPage extends React.Component {
   constructor() {
     super()
     this.state = {
-      isHidden: true
+      isQuizHidden: true,
+      isLevelHidden: true,
+      isTimerStarted: false
     }
     this.toggleQuiz = this.toggleQuiz.bind(this)
+    this.startGame = this.startGame.bind(this)
   }
 
   componentDidMount() {
@@ -57,38 +68,61 @@ class MainPage extends React.Component {
 
   toggleQuiz() {
     this.setState({
-      isHidden: !this.state.isHidden
+      isQuizHidden: !this.state.isQuizHidden
     })
+  }
+
+  startGame(e) {
+    e.preventDefault()
+    this.setState({
+      isLevelHidden: !this.state.isLevelHidden,
+      isTimerStarted: !this.state.isTimerStarted
+    })
+    console.log('starting game', e.target.value)
   }
 
   render() {
     console.log(this.props.trivias)
     return (
       <div>
-        <div>
-          <Form>
-            <FormGroup tag="fieldset">
-              <legend>Pick Level</legend>
-              <FormGroup check>
-                <Label check>
-                  <Input type="radio" name="radio1" /> Easy
-                </Label>
-              </FormGroup>
-              <FormGroup check>
-                <Label check>
-                  <Input type="radio" name="radio1" /> Hard
-                </Label>
-              </FormGroup>
-              <FormGroup check disabled>
-                <Label check>
-                  <Input type="radio" name="radio1" disabled /> Pick for Me!
-                </Label>
-              </FormGroup>
-            </FormGroup>
-            <Button>Submit</Button>
-          </Form>
-        </div>
-        {!this.state.isHidden && <QuizContainer />}
+        {this.state.isLevelHidden && (
+          <div>
+            <h4>Pick Level and Start a Game!!</h4>
+            <div className="startGame">
+              <Button
+                color="primary"
+                value="easy"
+                onClick={e => this.startGame(e)}
+              >
+                Easy
+              </Button>{' '}
+              <Button
+                color="warning"
+                value="medium"
+                onClick={e => this.startGame(e)}
+              >
+                Medium
+              </Button>{' '}
+              <Button
+                color="danger"
+                value="hard"
+                onClick={e => this.startGame(e)}
+              >
+                Hard
+              </Button>{' '}
+              <Button
+                color="success"
+                value="all"
+                onClick={e => this.startGame(e)}
+              >
+                Pick for Me!
+              </Button>{' '}
+            </div>
+          </div>
+        )}
+        {this.state.isTimerStarted && <div>Timer!</div>}
+
+        {!this.state.isQuizHidden && <QuizContainer />}
         <div id="map" />
       </div>
     )

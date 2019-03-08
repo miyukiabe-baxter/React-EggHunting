@@ -3,11 +3,6 @@
   text-align: center;
 } */
 
-#map {
-  height: 60vh;
-  width: 100%;
-  margin: auto;
-}
 /* Optional: Makes the sample page fill the window. */
 html,
 body {
@@ -33,4 +28,14 @@ nav a {
 form div {
   margin: 1em;
   display: inline-block;
+}
+
+.startGame {
+  margin: 3%;
+}
+
+#map {
+  height: 60vh;
+  width: 100%;
+  margin: auto;
 }
