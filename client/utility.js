@@ -3,15 +3,17 @@
 // }
 
 function getRandomInRange(x, y) {
-  return function(from, to, fixed) {
+  return function() {
     let egg = ['green', 'blue', 'red', 'orange', 'special', 'yellow']
     const eggLocation = []
     while (eggLocation.length < 30) {
       let lat =
-        (Math.random() * (x + 0.01 - (x - 0.01)) + (x + 0.01)).toFixed(10) * 1
+        (Math.random() * (x + 0.008 - (x - 0.008)) + (x - 0.008)).toFixed(10) *
+        1
       let lng =
-        (Math.random() * (y + 0.01 - (y - 0.01)) + (y + 0.01)).toFixed(10) * 1
+        (Math.random() * (y + 0.01 - (y - 0.01)) + (y - 0.01)).toFixed(10) * 1
       let idx = Math.floor(Math.random() * 6)
+      console.log('')
       eggLocation.push({
         position: {
           lat,

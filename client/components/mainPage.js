@@ -23,11 +23,6 @@ class MainPage extends React.Component {
 
   async componentDidMount() {
     this.props.currentLocation().then(() => this.renderMap())
-    //this.props.getVenues().then(() => this.renderMap())
-    // this.props.getLocation(
-    // const res = await axios.post(`https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyDU4lLRMSBMlKtCbV0PoOEDF6TaNIac6Ck`)
-
-    // console.log('im inside compound', res.data)
   }
 
   renderMap = () => {
@@ -40,14 +35,12 @@ class MainPage extends React.Component {
   initMap = () => {
     const {lat, lng} = this.props.currentSpot
     const whereIsEgg = getRandomInRange(lat, lng)()
-    console.log('hope I see ', whereIsEgg)
     const map = new window.google.maps.Map(document.getElementById('map'), {
       center: {lat, lng},
-      zoom: 13,
+      zoom: 12,
       gestureHandling: 'cooperative'
     })
 
-    // const egg = '/img/smallEggs/'
     whereIsEgg.map(egg => {
       var marker = new window.google.maps.Marker({
         position: egg.position,
@@ -60,7 +53,7 @@ class MainPage extends React.Component {
       })
       marker.addListener('click', this.toggleQuiz)
       map.addListener('zoom_changed', function() {
-        map.zoom > 14 ? marker.setVisible(true) : marker.setVisible(false)
+        map.zoom > 15 ? marker.setVisible(true) : marker.setVisible(false)
       })
     })
   }
