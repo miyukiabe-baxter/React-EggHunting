@@ -3,9 +3,13 @@ import {connect} from 'react-redux'
 import QuizContainer from './quizContainer'
 import {gettingQuizzes} from '../store/quiz'
 import {gettingVenues} from '../store/forsquare'
+// import { gettingLocation } from '../store/locationInfo'
+import {getLocation} from '../store/user'
 import {Button} from 'reactstrap'
 import PickLevel from './pickLevel'
 import TimerAndCounter from './timerAndCounter'
+import {getRandomInRange} from '../utility'
+// import axios from 'axios'
 
 class MainPage extends React.Component {
   constructor() {
@@ -17,8 +21,8 @@ class MainPage extends React.Component {
     }
   }
 
-  componentDidMount() {
-    this.props.getVenues().then(() => this.renderMap())
+  async componentDidMount() {
+    this.props.currentLocation().then(() => this.renderMap())
   }
 
   renderMap = () => {
@@ -29,30 +33,27 @@ class MainPage extends React.Component {
   }
 
   initMap = () => {
+    const {lat, lng} = this.props.currentSpot
+    const whereIsEgg = getRandomInRange(lat, lng)()
     const map = new window.google.maps.Map(document.getElementById('map'), {
-      center: {lat: 40.748287, lng: -73.989794},
+      center: {lat, lng},
       zoom: 12,
       gestureHandling: 'cooperative'
     })
 
-    const egg = '/img/smallEggs/'
-    this.props.venues.map(myVenue => {
+    whereIsEgg.map(egg => {
       var marker = new window.google.maps.Marker({
-        position: {
-          lat: myVenue.venue.location.lat,
-          lng: myVenue.venue.location.lng
-        },
+        position: egg.position,
         map: map,
         draggable: false,
         raiseOnDrag: false,
         clickable: true,
         visible: false,
-        title: myVenue.venue.name,
-        icon: egg + `red.png`
+        icon: '/img/smallEggs/' + egg.icon + '.png'
       })
       marker.addListener('click', this.toggleQuiz)
       map.addListener('zoom_changed', function() {
-        map.zoom > 14 ? marker.setVisible(true) : marker.setVisible(false)
+        map.zoom > 15 ? marker.setVisible(true) : marker.setVisible(false)
       })
     })
   }
@@ -99,12 +100,14 @@ const loadScript = url => {
 
 const mapStateToProps = state => ({
   trivias: state.quiz.quizzes,
-  venues: state.venue.venues
+  // venues: state.venue.venues,
+  currentSpot: state.user.myLocation.location
 })
 
 const mapStateToDispatch = dispatch => ({
   getTrivia: level => dispatch(gettingQuizzes(level)),
-  getVenues: () => dispatch(gettingVenues())
+  // getVenues: () => dispatch(gettingVenues()),
+  currentLocation: () => dispatch(getLocation())
 })
 
 export default connect(mapStateToProps, mapStateToDispatch)(MainPage)

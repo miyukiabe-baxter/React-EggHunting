@@ -6,17 +6,21 @@ import history from '../history'
  */
 const GET_USER = 'GET_USER'
 const REMOVE_USER = 'REMOVE_USER'
-
+const GET_LOCATION = 'GET_LOCATION'
 /**
  * INITIAL STATE
  */
-const defaultUser = {}
+const initialState = {
+  user: {},
+  myLocation: {}
+}
 
 /**
  * ACTION CREATORS
  */
 const getUser = user => ({type: GET_USER, user})
 const removeUser = () => ({type: REMOVE_USER})
+const gotLocation = myLocation => ({type: GET_LOCATION, myLocation})
 
 /**
  * THUNK CREATORS
@@ -24,7 +28,7 @@ const removeUser = () => ({type: REMOVE_USER})
 export const me = () => async dispatch => {
   try {
     const res = await axios.get('/auth/me')
-    dispatch(getUser(res.data || defaultUser))
+    dispatch(getUser(res.data || {}))
   } catch (err) {
     console.error(err)
   }
@@ -56,15 +60,28 @@ export const logout = () => async dispatch => {
   }
 }
 
+export const getLocation = () => async dispatch => {
+  try {
+    const res = await axios.post(
+      `https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyDU4lLRMSBMlKtCbV0PoOEDF6TaNIac6Ck`
+    )
+    dispatch(gotLocation(res.data))
+  } catch (err) {
+    console.err(err)
+  }
+}
+
 /**
  * REDUCER
  */
-export default function(state = defaultUser, action) {
+export default function(state = initialState, action) {
   switch (action.type) {
     case GET_USER:
-      return action.user
+      return {...state, user: action.user}
     case REMOVE_USER:
-      return defaultUser
+      return {...state, user: {}}
+    case GET_LOCATION:
+      return {...state, myLocation: action.myLocation}
     default:
       return state
   }
