@@ -3,9 +3,13 @@ import {connect} from 'react-redux'
 import QuizContainer from './quizContainer'
 import {gettingQuizzes} from '../store/quiz'
 import {gettingVenues} from '../store/forsquare'
+// import { gettingLocation } from '../store/locationInfo'
+import {getLocation} from '../store/user'
 import {Button} from 'reactstrap'
 import PickLevel from './pickLevel'
 import TimerAndCounter from './timerAndCounter'
+import {getRandomInRange} from '../utility'
+// import axios from 'axios'
 
 class MainPage extends React.Component {
   constructor() {
@@ -17,8 +21,13 @@ class MainPage extends React.Component {
     }
   }
 
-  componentDidMount() {
-    this.props.getVenues().then(() => this.renderMap())
+  async componentDidMount() {
+    this.props.currentLocation().then(() => this.renderMap())
+    //this.props.getVenues().then(() => this.renderMap())
+    // this.props.getLocation(
+    // const res = await axios.post(`https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyDU4lLRMSBMlKtCbV0PoOEDF6TaNIac6Ck`)
+
+    // console.log('im inside compound', res.data)
   }
 
   renderMap = () => {
@@ -29,26 +38,25 @@ class MainPage extends React.Component {
   }
 
   initMap = () => {
+    const {lat, lng} = this.props.currentSpot
+    const whereIsEgg = getRandomInRange(lat, lng)()
+    console.log('hope I see ', whereIsEgg)
     const map = new window.google.maps.Map(document.getElementById('map'), {
-      center: {lat: 40.748287, lng: -73.989794},
-      zoom: 12,
+      center: {lat, lng},
+      zoom: 13,
       gestureHandling: 'cooperative'
     })
 
-    const egg = '/img/smallEggs/'
-    this.props.venues.map(myVenue => {
+    // const egg = '/img/smallEggs/'
+    whereIsEgg.map(egg => {
       var marker = new window.google.maps.Marker({
-        position: {
-          lat: myVenue.venue.location.lat,
-          lng: myVenue.venue.location.lng
-        },
+        position: egg.position,
         map: map,
         draggable: false,
         raiseOnDrag: false,
         clickable: true,
         visible: false,
-        title: myVenue.venue.name,
-        icon: egg + `red.png`
+        icon: '/img/smallEggs/' + egg.icon + '.png'
       })
       marker.addListener('click', this.toggleQuiz)
       map.addListener('zoom_changed', function() {
@@ -99,12 +107,14 @@ const loadScript = url => {
 
 const mapStateToProps = state => ({
   trivias: state.quiz.quizzes,
-  venues: state.venue.venues
+  // venues: state.venue.venues,
+  currentSpot: state.user.myLocation.location
 })
 
 const mapStateToDispatch = dispatch => ({
   getTrivia: level => dispatch(gettingQuizzes(level)),
-  getVenues: () => dispatch(gettingVenues())
+  // getVenues: () => dispatch(gettingVenues()),
+  currentLocation: () => dispatch(getLocation())
 })
 
 export default connect(mapStateToProps, mapStateToDispatch)(MainPage)
