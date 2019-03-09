@@ -4,6 +4,8 @@ import QuizContainer from './quizContainer'
 import {gettingQuizzes} from '../store/quiz'
 import {gettingVenues} from '../store/forsquare'
 import {Button} from 'reactstrap'
+import PickLevel from './pickLevel'
+import TimerAndCounter from './timerAndCounter'
 
 class MainPage extends React.Component {
   constructor() {
@@ -13,13 +15,10 @@ class MainPage extends React.Component {
       isLevelHidden: true,
       isTimerStarted: false
     }
-    this.toggleQuiz = this.toggleQuiz.bind(this)
-    this.startGame = this.startGame.bind(this)
   }
 
   componentDidMount() {
     this.props.getVenues().then(() => this.renderMap())
-    // this.props.getTrivia()
   }
 
   renderMap = () => {
@@ -58,16 +57,15 @@ class MainPage extends React.Component {
     })
   }
 
-  toggleQuiz() {
+  toggleQuiz = () => {
     this.setState({
       isQuizHidden: !this.state.isQuizHidden
     })
   }
 
-  startGame(e) {
+  startGame = e => {
     e.preventDefault()
-    const level = e.target.value
-    this.props.getTrivia(level)
+    this.props.getTrivia(e.target.value)
     this.setState({
       isLevelHidden: !this.state.isLevelHidden,
       isTimerStarted: !this.state.isTimerStarted
@@ -75,47 +73,15 @@ class MainPage extends React.Component {
   }
 
   render() {
-    console.log('main page', this.props.trivias)
     return (
       <div>
         {this.state.isLevelHidden && (
-          <div>
-            <h4>Pick Level and Start a Game!!</h4>
-            <div className="startGame">
-              <Button
-                color="primary"
-                value="easy"
-                onClick={e => this.startGame(e)}
-              >
-                Easy
-              </Button>{' '}
-              <Button
-                color="warning"
-                value="medium"
-                onClick={e => this.startGame(e)}
-              >
-                Medium
-              </Button>{' '}
-              <Button
-                color="danger"
-                value="hard"
-                onClick={e => this.startGame(e)}
-              >
-                Hard
-              </Button>{' '}
-              <Button
-                color="success"
-                value="all"
-                onClick={e => this.startGame(e)}
-              >
-                Pick for Me!
-              </Button>{' '}
-            </div>
-          </div>
+          <PickLevel startGame={e => this.startGame(e)} />
         )}
-        {this.state.isTimerStarted && <div>Timer!</div>}
-
-        {!this.state.isQuizHidden && <QuizContainer />}
+        {this.state.isTimerStarted && <TimerAndCounter />}
+        {!this.state.isQuizHidden && (
+          <QuizContainer quizzes={this.props.trivias} />
+        )}
         <div id="map" />
       </div>
     )
