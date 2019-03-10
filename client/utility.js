@@ -41,7 +41,7 @@ const generateRandomNum = choices => {
   for (let i = 0; i < idxArr.length; i++) {
     multipleChoice.push({
       id: i,
-      choice: choices[i]
+      choice: choices[idxArr[i]]
     })
   }
   return multipleChoice
