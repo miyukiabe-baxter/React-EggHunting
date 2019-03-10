@@ -1,38 +1,35 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Button, Form, FormGroup, Label, Input, FormText} from 'reactstrap'
-
-import {generateRandomNum} from '../utility'
+import {updatingScore, changingQuizVisibility} from '../store/quiz'
 
 class QuizContainer extends Component {
   constructor(props) {
     super(props)
   }
 
-  render() {
-    const {quizzes} = this.props
-    const quiz = quizzes[Math.floor(Math.random() * quizzes.length - 1)]
-    const choices = quiz.incorrect_answers.concat(quiz.correct_answer)
-    const multi = generateRandomNum(choices)
-
-    const checkAnswer = event => {
-      if (event.target.value === quiz.correct_answer) {
-        console.log('you got correct Answer')
-      } else {
-        console.log('Wrong!!!!!!!!')
-      }
+  checkAnswer = event => {
+    if (this.props.currentQuiz.correct_answer === event.target.value) {
+      this.props.addScore(1)
+      this.props.changeQuizStatus(!this.props.currentQuizStatus)
+    } else {
+      console.log('you are worng!!!!!!!!!!')
     }
+  }
+
+  render() {
+    const solveThis = this.props.currentQuiz
 
     return (
       <div>
-        <h4>{quiz.question}</h4>
-        {multi.map(choice => {
+        <h5>{solveThis.question}</h5>
+        {solveThis.multiQuiz.map(choice => {
           return (
             <Button
               key={choice.id}
               color="info"
               value={choice.choice}
-              onClick={value => checkAnswer(value)}
+              onClick={value => this.checkAnswer(value)}
             >
               {choice.choice}
             </Button>
@@ -43,4 +40,15 @@ class QuizContainer extends Component {
   }
 }
 
-export default connect(null, null)(QuizContainer)
+const mapStateToProps = state => ({
+  trivias: state.quiz.quizzes,
+  currentQuiz: state.quiz.aQuiz.aQuiz,
+  currentQuizStatus: state.quiz.isQuizHidden
+})
+
+const mapStateToDispatch = dispatch => ({
+  changeQuizStatus: status => dispatch(changingQuizVisibility(status)),
+  addScore: num => dispatch(updatingScore(num))
+})
+
+export default connect(mapStateToProps, mapStateToDispatch)(QuizContainer)

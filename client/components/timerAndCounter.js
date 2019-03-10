@@ -1,12 +1,23 @@
 import React from 'react'
+import {connect} from 'react-redux'
 import {Button} from 'reactstrap'
 
 const TimerAndCounter = props => {
   return (
     <div>
       <h4>I need timer and counter</h4>
+      <h5>Score: {props.currentScore}</h5>
     </div>
   )
 }
 
-export default TimerAndCounter
+const mapStateToProps = state => ({
+  currentScore: state.quiz.score
+})
+
+// const mapStateToDispatch = dispatch => ({
+//   getTrivia: level => dispatch(gettingQuizzes(level)),
+//   currentLocation: () => dispatch(getLocation())
+// })
+
+export default connect(mapStateToProps, null)(TimerAndCounter)
