@@ -1,7 +1,11 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import QuizContainer from './quizContainer'
-import {gettingQuizzes, gettingOneQuiz} from '../store/quiz'
+import {
+  gettingQuizzes,
+  gettingOneQuiz,
+  changingQuizVisibility
+} from '../store/quiz'
 import {getLocation} from '../store/user'
 import PickLevel from './pickLevel'
 import TimerAndCounter from './timerAndCounter'
@@ -13,7 +17,7 @@ class MainPage extends React.Component {
   constructor() {
     super()
     this.state = {
-      isQuizHidden: true,
+      // isQuizHidden: true,
       isLevelHidden: true,
       isTimerStarted: false
     }
@@ -57,15 +61,18 @@ class MainPage extends React.Component {
   }
 
   toggleQuiz = () => {
-    this.setState({
-      isQuizHidden: !this.state.isQuizHidden
-    })
-    const {trivias} = this.props
-    const quiz = trivias[Math.floor(Math.random() * trivias.length - 1)]
-    quiz.multiQuiz = generateRandomNum(
-      quiz.incorrect_answers.concat(quiz.correct_answer)
-    )
-    this.props.setOneQuiz(quiz)
+    // console.log('checkmystatus', this.props.changeQuizStatus)
+    const changeState = !this.props.currentQuizStatus
+    this.props.changeQuizStatus(changeState)
+    // this.setState({
+    //   isQuizHidden: !this.state.isQuizHidden
+    // })
+    // const {trivias} = this.props
+    // const quiz = trivias[Math.floor(Math.random() * trivias.length - 1)]
+    // quiz.multiQuiz = generateRandomNum(
+    //   quiz.incorrect_answers.concat(quiz.correct_answer)
+    // )
+    // this.props.setOneQuiz(quiz)
   }
 
   startGame = e => {
@@ -84,7 +91,7 @@ class MainPage extends React.Component {
           <PickLevel startGame={e => this.startGame(e)} />
         )}
         {this.state.isTimerStarted && <TimerAndCounter />}
-        {!this.state.isQuizHidden && <QuizContainer />}
+        {!this.props.currentQuizStatus && <QuizContainer />}
         <div id="map" />
       </div>
     )
@@ -92,14 +99,16 @@ class MainPage extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  trivias: state.quiz.quizzes,
-  currentSpot: state.user.myLocation.location
+  // trivias: state.quiz.quizzes,
+  currentSpot: state.user.myLocation.location,
+  currentQuizStatus: state.quiz.isQuizHidden
 })
 
 const mapStateToDispatch = dispatch => ({
   getTrivia: level => dispatch(gettingQuizzes(level)),
   currentLocation: () => dispatch(getLocation()),
-  setOneQuiz: quiz => dispatch(gettingOneQuiz(quiz))
+  // setOneQuiz: quiz => dispatch(gettingOneQuiz(quiz)),
+  changeQuizStatus: status => dispatch(changingQuizVisibility(status))
 })
 
 export default connect(mapStateToProps, mapStateToDispatch)(MainPage)
