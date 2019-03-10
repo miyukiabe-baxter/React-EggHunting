@@ -1,8 +1,13 @@
-// function getRandomInRange (from, to, fixed) {
-//    return (Math.random() * (to - from) + from).toFixed(fixed) * 1;
-// }
+const loadScript = url => {
+  const index = window.document.getElementsByTagName('script')[0]
+  const script = window.document.createElement('script')
+  script.src = url
+  script.async = true
+  script.defer = true
+  index.parentNode.insertBefore(script, index)
+}
 
-function getRandomInRange(x, y) {
+const getRandomInRange = (x, y) => {
   return function() {
     let egg = ['green', 'blue', 'red', 'orange', 'special', 'yellow']
     const eggLocation = []
@@ -26,7 +31,7 @@ function getRandomInRange(x, y) {
   }
 }
 
-function generateRandomNum(choices) {
+const generateRandomNum = choices => {
   const idxArr = []
   const multipleChoice = []
   while (idxArr.length < 4) {
@@ -42,7 +47,17 @@ function generateRandomNum(choices) {
   return multipleChoice
 }
 
+const checkAnswer = event => {
+  if (event.target.value === quiz.correct_answer) {
+    console.log('you got correct Answer')
+  } else {
+    console.log('Wrong!!!!!!!!')
+  }
+}
+
 module.exports = {
   getRandomInRange,
-  generateRandomNum
+  generateRandomNum,
+  loadScript,
+  checkAnswer
 }

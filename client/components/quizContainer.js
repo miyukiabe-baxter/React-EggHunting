@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Button, Form, FormGroup, Label, Input, FormText} from 'reactstrap'
 
-import {generateRandomNum} from '../utility'
+import {generateRandomNum, checkAnswer} from '../utility'
 
 class QuizContainer extends Component {
   constructor(props) {
@@ -12,8 +12,9 @@ class QuizContainer extends Component {
   render() {
     const {quizzes} = this.props
     const quiz = quizzes[Math.floor(Math.random() * quizzes.length - 1)]
-    const choices = quiz.incorrect_answers.concat(quiz.correct_answer)
-    const multi = generateRandomNum(choices)
+    const multi = generateRandomNum(
+      quiz.incorrect_answers.concat(quiz.correct_answer)
+    )
 
     const checkAnswer = event => {
       if (event.target.value === quiz.correct_answer) {

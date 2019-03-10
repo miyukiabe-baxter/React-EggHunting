@@ -2,13 +2,10 @@ import React from 'react'
 import {connect} from 'react-redux'
 import QuizContainer from './quizContainer'
 import {gettingQuizzes} from '../store/quiz'
-import {gettingVenues} from '../store/forsquare'
-// import { gettingLocation } from '../store/locationInfo'
 import {getLocation} from '../store/user'
-import {Button} from 'reactstrap'
 import PickLevel from './pickLevel'
 import TimerAndCounter from './timerAndCounter'
-import {getRandomInRange} from '../utility'
+import {getRandomInRange, loadScript} from '../utility'
 // import axios from 'axios'
 
 class MainPage extends React.Component {
@@ -89,24 +86,13 @@ class MainPage extends React.Component {
   }
 }
 
-const loadScript = url => {
-  const index = window.document.getElementsByTagName('script')[0]
-  const script = window.document.createElement('script')
-  script.src = url
-  script.async = true
-  script.defer = true
-  index.parentNode.insertBefore(script, index)
-}
-
 const mapStateToProps = state => ({
   trivias: state.quiz.quizzes,
-  // venues: state.venue.venues,
   currentSpot: state.user.myLocation.location
 })
 
 const mapStateToDispatch = dispatch => ({
   getTrivia: level => dispatch(gettingQuizzes(level)),
-  // getVenues: () => dispatch(gettingVenues()),
   currentLocation: () => dispatch(getLocation())
 })
 
