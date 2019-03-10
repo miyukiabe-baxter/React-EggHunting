@@ -6,64 +6,63 @@ class TimerAndCounter extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      remainingMinutes: 5,
-      remainingSeconds: 0
+      remainingMinutes: 1,
+      remainingSeconds: 0,
+      gameOver: true
     }
+    this.secondsRemaining
+    this.intervalHandle
   }
 
   componentDidMount() {
-    this.countDown()
+    this.startCountDown()
   }
 
-  updateRemainMinutesAndSeconds(timeRemainingInSeconds) {
-    // let remainingMinutes = Math.floor(timeRemainingInSeconds/60);
-    let remainingSeconds = timeRemainingInSeconds % 60
-    this.setState({
-      remainingMinutes,
-      remainingSeconds
-    })
-  }
-
-  countDown = (timeRemainingInSeconds, shouldSkipCallback) => {
-    this.setState({
-      timeRemainingInSeconds
-    })
-    if (!shouldSkipCallback && timeRemainingInSeconds % 60 === 0) {
-      this.props.onEveryMinute(1)
-    }
-    if (timeRemainingInSeconds === 0) {
-      this.props.onCompletion()
-    }
-    localStorage.setItem('timeRemainingInSeconds', timeRemainingInSeconds)
-    if (timeRemainingInSeconds > 0) {
-      this.updateRemainMinutesAndSeconds(timeRemainingInSeconds)
-      timeRemainingInSeconds = timeRemainingInSeconds - 1
-      this.setTimeoutId = setTimeout(
-        this.countDown.bind(this, timeRemainingInSeconds, false),
-        1000
-      )
+  tick = () => {
+    var min = Math.floor(this.secondsRemaining / 60)
+    var sec = this.secondsRemaining - min * 60
+    if (min === 0 && sec === 0) {
+      this.setState({gameOver: false})
+      this.setState({
+        remainingMinutes: 0,
+        remainingSeconds: 0
+      })
+    } else {
+      this.setState({
+        remainingMinutes: min,
+        remainingSeconds: sec
+      })
+      this.secondsRemaining--
     }
   }
 
-  componentWillUnmount() {
-    clearTimeout(this.setTimeoutId)
+  startCountDown = () => {
+    this.intervalHandle = setInterval(this.tick, 1000)
+    let time = this.state.remainingMinutes
+    this.secondsRemaining = time * 60
   }
 
   render() {
     return (
       <div className="timer">
         <div>
-          <div className="font-weight-bold lead number-display">
+          <h5>
             {this.state.remainingMinutes > 9
               ? this.state.remainingMinutes
               : '0' + this.state.remainingMinutes}:{this.state
               .remainingSeconds > 9
               ? this.state.remainingSeconds
               : '0' + this.state.remainingSeconds}
-          </div>
+          </h5>
+          {!this.state.gameOver && <h3>GAME OVER</h3>}
         </div>
         <div>
           <h5>Score: {this.props.currentScore}</h5>
+        </div>
+        <div className="startGame">
+          <Button color="success" onClick={this.props.resetGame}>
+            End Game
+          </Button>
         </div>
       </div>
     )
@@ -72,10 +71,5 @@ class TimerAndCounter extends Component {
 const mapStateToProps = state => ({
   currentScore: state.quiz.score
 })
-
-// const mapStateToDispatch = dispatch => ({
-//   getTrivia: level => dispatch(gettingQuizzes(level)),
-//   currentLocation: () => dispatch(getLocation())
-// })
 
 export default connect(mapStateToProps, null)(TimerAndCounter)

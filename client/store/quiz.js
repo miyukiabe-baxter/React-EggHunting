@@ -1,5 +1,4 @@
 import axios from 'axios'
-import history from '../history'
 
 /**
  * ACTION TYPES
@@ -41,7 +40,7 @@ export const gettingQuizzes = level => async dispatch => {
   }
 }
 
-export const gettingOneQuiz = quiz => async dispatch => {
+export const gettingOneQuiz = quiz => dispatch => {
   try {
     dispatch(gotOneQuiz(quiz))
   } catch (err) {
@@ -49,7 +48,7 @@ export const gettingOneQuiz = quiz => async dispatch => {
   }
 }
 
-export const updatingScore = score => async dispatch => {
+export const updatingScore = score => dispatch => {
   try {
     dispatch(updatedScore(score))
   } catch (err) {
@@ -57,7 +56,7 @@ export const updatingScore = score => async dispatch => {
   }
 }
 
-export const changingQuizVisibility = status => async dispatch => {
+export const changingQuizVisibility = status => dispatch => {
   try {
     dispatch(isQuizHidden(status))
   } catch (err) {

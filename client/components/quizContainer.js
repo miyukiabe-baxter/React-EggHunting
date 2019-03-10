@@ -1,13 +1,9 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {Button, Form, FormGroup, Label, Input, FormText} from 'reactstrap'
+import {Button} from 'reactstrap'
 import {updatingScore, changingQuizVisibility} from '../store/quiz'
 
 class QuizContainer extends Component {
-  constructor(props) {
-    super(props)
-  }
-
   checkAnswer = event => {
     if (this.props.currentQuiz.correct_answer === event.target.value) {
       this.props.addScore(1)

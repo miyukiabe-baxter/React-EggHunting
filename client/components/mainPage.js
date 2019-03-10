@@ -20,7 +20,7 @@ class MainPage extends React.Component {
     }
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     this.props.currentLocation().then(() => this.renderMap())
   }
 
@@ -80,13 +80,22 @@ class MainPage extends React.Component {
     })
   }
 
+  resetGame = () => {
+    this.setState({
+      isLevelHidden: !this.state.isLevelHidden,
+      isTimerStarted: !this.state.isTimerStarted
+    })
+  }
+
   render() {
     return (
       <div>
         {this.state.isLevelHidden && (
           <PickLevel startGame={e => this.startGame(e)} />
         )}
-        {this.state.isTimerStarted && <TimerAndCounter />}
+        {this.state.isTimerStarted && (
+          <TimerAndCounter resetGame={this.resetGame} />
+        )}
         {!this.props.currentQuizStatus && <QuizContainer />}
         <div id="map" />
       </div>
