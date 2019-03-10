@@ -14,7 +14,7 @@ const IS_QUIZ_HIDDEN = 'IS_QUIZ_HIDDEN'
  */
 const initialState = {
   quizzes: [],
-  // aQuiz: {},
+  aQuiz: {},
   score: 0,
   isQuizHidden: true
 }
@@ -23,7 +23,7 @@ const initialState = {
  * ACTION CREATORS
  */
 const gotQuizzes = quizzes => ({type: GOT_QUIZZES, quizzes})
-// const gotOneQuiz = aQuiz => ({type: GOT_ONE_QUIZ, aQuiz})
+const gotOneQuiz = aQuiz => ({type: GOT_ONE_QUIZ, aQuiz})
 const updatedScore = score => ({type: UPDATE_SCORE, score})
 const isQuizHidden = status => ({type: IS_QUIZ_HIDDEN, status})
 /**
@@ -41,13 +41,13 @@ export const gettingQuizzes = level => async dispatch => {
   }
 }
 
-// export const gettingOneQuiz = quiz => async dispatch => {
-//   try {
-//     dispatch(gotOneQuiz(quiz))
-//   } catch (err) {
-//     console.error(err)
-//   }
-// }
+export const gettingOneQuiz = quiz => async dispatch => {
+  try {
+    dispatch(gotOneQuiz(quiz))
+  } catch (err) {
+    console.error(err)
+  }
+}
 
 export const updatingScore = score => async dispatch => {
   try {
@@ -72,8 +72,8 @@ export default function(state = initialState, action) {
   switch (action.type) {
     case GOT_QUIZZES:
       return {...state, quizzes: action.quizzes}
-    // case GOT_ONE_QUIZ:
-    //   return {...state, aQuiz: action}
+    case GOT_ONE_QUIZ:
+      return {...state, aQuiz: action}
     case UPDATE_SCORE:
       return {...state, score: state.score + action.score}
     case IS_QUIZ_HIDDEN:

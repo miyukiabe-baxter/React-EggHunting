@@ -10,14 +10,11 @@ import {getLocation} from '../store/user'
 import PickLevel from './pickLevel'
 import TimerAndCounter from './timerAndCounter'
 import {getRandomInRange, loadScript, generateRandomNum} from '../utility'
-// import axios from 'axios'
-// import { gettingOneQuiz } from '../store/quiz'
 
 class MainPage extends React.Component {
   constructor() {
     super()
     this.state = {
-      // isQuizHidden: true,
       isLevelHidden: true,
       isTimerStarted: false
     }
@@ -61,18 +58,13 @@ class MainPage extends React.Component {
   }
 
   toggleQuiz = () => {
-    // console.log('checkmystatus', this.props.changeQuizStatus)
-    const changeState = !this.props.currentQuizStatus
-    this.props.changeQuizStatus(changeState)
-    // this.setState({
-    //   isQuizHidden: !this.state.isQuizHidden
-    // })
-    // const {trivias} = this.props
-    // const quiz = trivias[Math.floor(Math.random() * trivias.length - 1)]
-    // quiz.multiQuiz = generateRandomNum(
-    //   quiz.incorrect_answers.concat(quiz.correct_answer)
-    // )
-    // this.props.setOneQuiz(quiz)
+    const {trivias} = this.props
+    const quiz = trivias[Math.floor(Math.random() * trivias.length - 1)]
+    quiz.multiQuiz = generateRandomNum(
+      quiz.incorrect_answers.concat(quiz.correct_answer)
+    )
+    this.props.setOneQuiz(quiz)
+    this.props.changeQuizStatus(!this.props.currentQuizStatus)
   }
 
   startGame = e => {
@@ -99,7 +91,7 @@ class MainPage extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  // trivias: state.quiz.quizzes,
+  trivias: state.quiz.quizzes,
   currentSpot: state.user.myLocation.location,
   currentQuizStatus: state.quiz.isQuizHidden
 })
@@ -107,7 +99,7 @@ const mapStateToProps = state => ({
 const mapStateToDispatch = dispatch => ({
   getTrivia: level => dispatch(gettingQuizzes(level)),
   currentLocation: () => dispatch(getLocation()),
-  // setOneQuiz: quiz => dispatch(gettingOneQuiz(quiz)),
+  setOneQuiz: quiz => dispatch(gettingOneQuiz(quiz)),
   changeQuizStatus: status => dispatch(changingQuizVisibility(status))
 })
 

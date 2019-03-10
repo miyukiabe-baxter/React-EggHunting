@@ -47,17 +47,8 @@ const generateRandomNum = choices => {
   return multipleChoice
 }
 
-// const checkAnswer = event => {
-//   if (event.target.value === quiz.correct_answer) {
-//     console.log('you got correct Answer', event.target)
-//   } else {
-//     console.log('Wrong!!!!!!!!')
-//   }
-// }
-
 module.exports = {
   getRandomInRange,
   generateRandomNum,
   loadScript
-  // checkAnswer
 }
