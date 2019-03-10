@@ -5,6 +5,7 @@ const TimerAndCounter = props => {
   return (
     <div>
       <h4>I need timer and counter</h4>
+      <p id="timer">5:00</p>
     </div>
   )
 }

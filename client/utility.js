@@ -42,6 +42,18 @@ function generateRandomNum(choices) {
   return multipleChoice
 }
 
+function setup() {
+  let counter = 0
+  noCanvas()
+  const timer = select('#timer')
+  timer.html(counter)
+  function timeIt() {
+    counter++
+    timer.html(counter)
+  }
+  setInterval(timeIt, 1000)
+}
+
 module.exports = {
   getRandomInRange,
   generateRandomNum

@@ -4,7 +4,7 @@ import {Button} from 'reactstrap'
 const PickLevel = props => {
   return (
     <div>
-      <h4>Oh yeah!!</h4>
+      <h4>To Start Game, Pick Level!</h4>
       <div className="startGame">
         <Button
           color="success"
