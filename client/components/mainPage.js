@@ -47,11 +47,11 @@ class MainPage extends React.Component {
         raiseOnDrag: false,
         clickable: true,
         visible: false,
-        icon: '/img/smallEggs/' + egg.icon + '.png'
+        icon: '/img/mediumEggs/' + egg.icon + '.png'
       })
       marker.addListener('click', this.toggleQuiz)
       map.addListener('zoom_changed', function() {
-        map.zoom > 15 ? marker.setVisible(true) : marker.setVisible(false)
+        map.zoom > 16 ? marker.setVisible(true) : marker.setVisible(false)
       })
     })
   }

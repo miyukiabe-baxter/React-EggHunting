@@ -20,6 +20,15 @@ label {
   display: block;
 }
 
+#navIcon h2 {
+  display: inline-block;
+  margin: none;
+}
+
+#navIcon img {
+  animation: swingsidetoside 3s ease-in-out infinite;
+}
+
 nav a {
   display: inline-block;
   margin: 1em;
@@ -42,4 +51,22 @@ form div {
 
 .btn-info {
   margin: 2%;
+}
+
+@keyframes swingsidetoside {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(45deg);
+  }
+  50% {
+    transform: rotate(0deg);
+  }
+  75% {
+    transform: rotate(-45deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
 }

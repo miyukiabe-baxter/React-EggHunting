@@ -8,7 +8,13 @@ import {logout} from '../store'
 
 const Navbar = ({handleClick, isLoggedIn}) => (
   <div>
-    <h1>Egg Hunting</h1>
+    <div id="navIcon">
+      <img src="./img/mediumEggs/blue.png" />
+      <img src="./img/mediumEggs/yellow.png" />
+      <h2>Egg Hunting</h2>
+      <img src="./img/mediumEggs/red.png" />
+      <img src="./img/mediumEggs/orange.png" />
+    </div>
     <nav>
       {isLoggedIn ? (
         <div>

@@ -7,7 +7,7 @@ const PickLevel = props => {
       <h4>Oh yeah!!</h4>
       <div className="startGame">
         <Button
-          color="primary"
+          color="success"
           value="easy"
           onClick={value => props.startGame(value)}
         >
@@ -23,7 +23,7 @@ const PickLevel = props => {
         <Button color="danger" value="hard" onClick={e => props.startGame(e)}>
           Hard
         </Button>{' '}
-        <Button color="success" value="all" onClick={e => props.startGame(e)}>
+        <Button color="primary" value="all" onClick={e => props.startGame(e)}>
           Pick for Me!
         </Button>{' '}
       </div>
