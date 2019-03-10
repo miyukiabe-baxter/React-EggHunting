@@ -40,6 +40,16 @@ class MainPage extends React.Component {
       gestureHandling: 'cooperative'
     })
 
+    const toggleQuiz = () => {
+      const {trivias} = this.props
+      const quiz = trivias[Math.floor(Math.random() * trivias.length - 1)]
+      quiz.multiQuiz = generateRandomNum(
+        quiz.incorrect_answers.concat(quiz.correct_answer)
+      )
+      this.props.setOneQuiz(quiz)
+      this.props.changeQuizStatus(!this.props.currentQuizStatus)
+    }
+
     whereIsEgg.map(egg => {
       var marker = new window.google.maps.Marker({
         position: egg.position,
@@ -50,21 +60,15 @@ class MainPage extends React.Component {
         visible: false,
         icon: '/img/mediumEggs/' + egg.icon + '.png'
       })
-      marker.addListener('click', this.toggleQuiz)
+      marker.addListener('click', function() {
+        toggleQuiz()
+        marker.setVisible(false)
+      })
+
       map.addListener('zoom_changed', function() {
         map.zoom > 16 ? marker.setVisible(true) : marker.setVisible(false)
       })
     })
-  }
-
-  toggleQuiz = () => {
-    const {trivias} = this.props
-    const quiz = trivias[Math.floor(Math.random() * trivias.length - 1)]
-    quiz.multiQuiz = generateRandomNum(
-      quiz.incorrect_answers.concat(quiz.correct_answer)
-    )
-    this.props.setOneQuiz(quiz)
-    this.props.changeQuizStatus(!this.props.currentQuizStatus)
   }
 
   startGame = e => {
