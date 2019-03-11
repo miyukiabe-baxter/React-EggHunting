@@ -10,9 +10,11 @@ const Navbar = ({handleClick, isLoggedIn}) => (
   <div>
     <div id="navIcon">
       <img src="./img/mediumEggs/blue.png" />
+      <img src="./img/mediumEggs/2chicken.png" />
       <img src="./img/mediumEggs/yellow.png" />
-      <h2>Egg Hunting</h2>
+      <h2>Egg Hunter</h2>
       <img src="./img/mediumEggs/red.png" />
+      <img src="./img/mediumEggs/binocular.png" />
       <img src="./img/mediumEggs/orange.png" />
     </div>
     <nav>

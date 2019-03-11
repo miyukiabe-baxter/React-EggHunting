@@ -60,8 +60,8 @@ class TimerAndCounter extends Component {
           <h5>Score: {this.props.currentScore}</h5>
         </div>
         <div className="startGame">
-          <Button color="success" onClick={this.props.resetGame}>
-            End Game
+          <Button color="secondary" onClick={this.props.resetGame}>
+            Start Over
           </Button>
         </div>
       </div>
