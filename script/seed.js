@@ -1,7 +1,7 @@
 'use strict'
 
 const db = require('../server/db')
-const {Egg} = require('../server/db/models')
+const {Egg, Quiz} = require('../server/db/models')
 
 const eggs = [
   {
@@ -22,12 +22,51 @@ const eggs = [
   }
 ]
 
+const quizzes = [
+  {
+    category: 'Science: Computers',
+    correct_answer: 'Serbia',
+    difficulty: 'medium',
+    incorrect_answers: ['Romania', 'Russia', 'Rwanda'],
+    question: '.rs is the top-level domain for what country?',
+    type: 'multiple'
+  }
+]
+
+// const Quiz = db.define('quiz', {
+//   category: {
+//     type: Sequelize.STRING,
+//     allowNull: false
+//   },
+//   correct_answer: {
+//     type: Sequelize.STRING
+//   },
+//   difficulty: {
+//     type: Sequelize.STRING,
+//     validate: {
+//       isIn: [['easy', 'medium', 'hard']]
+//     }
+//   },
+//   incorrect_answers: {
+//     type: Sequelize.ARRAY(Sequelize.TEXT)
+//   },
+//   question: {
+//     type: Sequelize.TEXT
+//   },
+//   type: {
+//     type: Sequelize.STRING,
+//     validate: {
+//       isIn: [['multiple', 'boolean']]
+//     }
+//   }
+// })
+
 async function seed() {
   await db.sync({force: true})
   console.log('db synced!')
 
   await Egg.bulkCreate(eggs)
-
+  await Quiz.bulkCreate(quizzes)
   console.log(`seeded successfully`)
 }
 
