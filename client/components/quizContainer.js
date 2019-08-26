@@ -4,7 +4,7 @@ import {Button} from 'reactstrap'
 import {updatingScore, changingQuizVisibility} from '../store/quiz'
 
 class QuizContainer extends Component {
-  constructor(){
+  constructor() {
     super()
     this.state = {
       correct: false,
@@ -16,19 +16,18 @@ class QuizContainer extends Component {
     this.setState({button: true})
     if (this.props.currentQuiz.correct_answer === event.target.value) {
       this.props.addScore(1)
-      this.setState({correct:!this.state.correct})
+      this.setState({correct: !this.state.correct})
       setTimeout(this.nextQuiz, 1000)
     } else {
-      this.setState({wrong:!this.state.correct})
+      this.setState({wrong: !this.state.correct})
       setTimeout(this.nextQuiz, 4000)
     }
   }
-  
+
   nextQuiz = () => {
     this.props.changeQuizStatus(!this.props.currentQuizStatus)
   }
 
-  
   render() {
     const solveThis = this.props.currentQuiz
     const correctAnswer = this.props.currentQuiz.correct_answer
@@ -37,21 +36,21 @@ class QuizContainer extends Component {
         <h5>{solveThis.question}</h5>
         {solveThis.multiQuiz.map(choice => {
           return (
-              <Button
-                key={choice.id}
-                id={choice.id}
-                type="button"
-                color="info"
-                value={choice.choice}
-                disabled = {this.state.button}
-                onClick={value => this.checkAnswer(value)}
-              >
-                {choice.choice}
-              </Button>
-            )
+            <Button
+              key={choice.id}
+              id={choice.id}
+              type="button"
+              color="info"
+              value={choice.choice}
+              disabled={this.state.button}
+              onClick={value => this.checkAnswer(value)}
+            >
+              {choice.choice}
+            </Button>
+          )
         })}
         {this.state.correct && <h5>Correct!!</h5>}
-        {this.state.wrong && <h5>Wrong! "{correctAnswer}"" is the answer</h5>}
+        {this.state.wrong && <h5>Wrong! "{correctAnswer}" is the answer</h5>}
       </div>
     )
   }

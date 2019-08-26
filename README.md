@@ -5,15 +5,8 @@
 1.  Fork and clone this repo
 2.  `npm install`
 3.  Start the build process and your application with: `npm run start-dev`. If you using Windows, you may need to execute `npm run start-server` and `npm run build-watch` separately (in their own terminal tabs).
-4.  Go to localhost:8080. You will see
-5.  Check out the starting seed file in `seed.js` - you can run it by executing `npm run seed`
-
-## Setup
-
-To use this boilerplate, you'll need to take the following steps:
-
-* Don't fork or clone this repo! Instead, create a new, empty directory on your machine and `git init` (or create an empty repo on Github and clone it to your local machine)
-* Run the following commands:
+4.  Run `npm run seed`.
+5.  Go to localhost:8080. You will see
 
 ## Customize
 

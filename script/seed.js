@@ -1,7 +1,8 @@
 'use strict'
 
 const db = require('../server/db')
-const {Egg} = require('../server/db/models')
+const quizzes = require('./quizzes')
+const {Egg, Quiz} = require('../server/db/models')
 
 const eggs = [
   {
@@ -25,9 +26,8 @@ const eggs = [
 async function seed() {
   await db.sync({force: true})
   console.log('db synced!')
-
   await Egg.bulkCreate(eggs)
-
+  await Quiz.bulkCreate(quizzes)
   console.log(`seeded successfully`)
 }
 
