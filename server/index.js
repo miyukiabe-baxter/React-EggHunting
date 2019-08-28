@@ -11,9 +11,6 @@ const PORT = process.env.PORT || 8080
 const app = express()
 const socketio = require('socket.io')
 
-// const StatsD = require('node-dogstatsd').StatsD
-// const dogstatsd = new StatsD()
-
 module.exports = {
   app
 }
@@ -115,19 +112,7 @@ const startListening = () => {
 
 const syncDb = () => db.sync()
 
-// const counterPageView = () => {
-//   // dogstatsd.increment('page-views')
-//   let counter = 0
-//   return function() {
-//     let updatedCounter = counter + 1
-//     console.log('what is the numnber', updatedCounter)
-//     return updatedCounter
-//   }
-// }
-// let countPage = counterPageView()
-
 async function bootApp() {
-  // await countPage()
   await sessionStore.sync()
   await syncDb()
   await createApp()
