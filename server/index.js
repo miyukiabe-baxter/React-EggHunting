@@ -10,14 +10,16 @@ const sessionStore = new SequelizeStore({db})
 const PORT = process.env.PORT || 8080
 const app = express()
 const socketio = require('socket.io')
-module.exports = app
+
+module.exports = {
+  app
+}
 
 // This is a global Mocha hook, used for resource cleanup.
 // Otherwise, Mocha v4+ never quits after tests.
 if (process.env.NODE_ENV === 'test') {
   after('close the session store', () => sessionStore.stopExpiringSessions())
 }
-
 /**
  * In your development environment, you can keep all of your
  * app's secret API keys in a file called `secrets.js`, in your project
@@ -62,6 +64,9 @@ const createApp = () => {
   )
   app.use(passport.initialize())
   app.use(passport.session())
+  // console.log('view 3')
+  // dogstatsd.increment('page.views')
+  // console.log('what do i see', dogstatsd.increment)
 
   // auth and api routes
   app.use('/auth', require('./auth'))
