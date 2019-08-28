@@ -12,6 +12,12 @@ const app = express()
 const socketio = require('socket.io')
 module.exports = app
 
+var StatsD = require('node-dogstatsd').StatsD
+var dogstatsd = new StatsD()
+
+//Increment a counter.
+dogstatsd.increment('page.views')
+
 // This is a global Mocha hook, used for resource cleanup.
 // Otherwise, Mocha v4+ never quits after tests.
 if (process.env.NODE_ENV === 'test') {
