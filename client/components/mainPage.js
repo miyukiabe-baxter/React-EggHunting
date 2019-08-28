@@ -49,7 +49,7 @@ class MainPage extends React.Component {
       this.props.setOneQuiz(quiz)
       this.props.changeQuizStatus(!this.props.currentQuizStatus)
     }
-    
+
     whereIsEgg.map(egg => {
       var marker = new window.google.maps.Marker({
         position: egg.position,
@@ -73,13 +73,12 @@ class MainPage extends React.Component {
 
   startGame = e => {
     e.preventDefault()
-    console.log('map',window.google.maps.ZoomControlStyle.LARGE)
+    console.log('map', window.google.maps.ZoomControlStyle.LARGE)
     this.props.getTrivia(e.target.value)
     this.setState({
       isLevelHidden: !this.state.isLevelHidden,
       isTimerStarted: !this.state.isTimerStarted
     })
-    
   }
 
   resetGame = () => {
@@ -89,7 +88,6 @@ class MainPage extends React.Component {
     })
     this.props.changeQuizStatus(true)
     location.reload()
-    
   }
 
   render() {
