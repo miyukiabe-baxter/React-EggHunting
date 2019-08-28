@@ -10,20 +10,19 @@ const sessionStore = new SequelizeStore({db})
 const PORT = process.env.PORT || 8080
 const app = express()
 const socketio = require('socket.io')
-module.exports = app
 
-var StatsD = require('node-dogstatsd').StatsD
-var dogstatsd = new StatsD()
+// const StatsD = require('node-dogstatsd').StatsD
+// const dogstatsd = new StatsD()
 
-//Increment a counter.
-dogstatsd.increment('page.views')
+module.exports = {
+  app
+}
 
 // This is a global Mocha hook, used for resource cleanup.
 // Otherwise, Mocha v4+ never quits after tests.
 if (process.env.NODE_ENV === 'test') {
   after('close the session store', () => sessionStore.stopExpiringSessions())
 }
-
 /**
  * In your development environment, you can keep all of your
  * app's secret API keys in a file called `secrets.js`, in your project
@@ -68,6 +67,9 @@ const createApp = () => {
   )
   app.use(passport.initialize())
   app.use(passport.session())
+  // console.log('view 3')
+  // dogstatsd.increment('page.views')
+  // console.log('what do i see', dogstatsd.increment)
 
   // auth and api routes
   app.use('/auth', require('./auth'))
@@ -113,7 +115,19 @@ const startListening = () => {
 
 const syncDb = () => db.sync()
 
+// const counterPageView = () => {
+//   // dogstatsd.increment('page-views')
+//   let counter = 0
+//   return function() {
+//     let updatedCounter = counter + 1
+//     console.log('what is the numnber', updatedCounter)
+//     return updatedCounter
+//   }
+// }
+// let countPage = counterPageView()
+
 async function bootApp() {
+  // await countPage()
   await sessionStore.sync()
   await syncDb()
   await createApp()
